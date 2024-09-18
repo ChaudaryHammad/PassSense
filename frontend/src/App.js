@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import Guide from "./screens/Guide";
 import Home from "./screens/Home";
 import ScanPassport from "./screens/ScanPassport";
+import MyScan from "./screens/MyScan.jsx";
+
 import Navbar from "./components/NavBar";
 import Login from "./screens/Login";
 import SignUp from "./screens/SignUp";
@@ -27,6 +29,8 @@ function App() {
           </Route>
           <Route path="/guide" element={<Guide />} />
           <Route path="/scan" element={<ScanPassport />} />
+          <Route path="/passports" element={<MyScan />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/profile" element={<Profile />} />

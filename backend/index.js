@@ -6,6 +6,8 @@ dotenv.config({
 import cookieParser from "cookie-parser";
 import { connectDB } from "./database/connection.js";
 import authRoute from "./routes/auth.route.js";
+import passportRoute from "./routes/passport.route.js";
+
 
 const PORT = process.env.PORT || 8000;
 import cors from "cors";
@@ -16,7 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
   {
-    origin: "https://pass-sense-frontend.vercel.app",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   }
 ));
@@ -27,6 +29,8 @@ app.get("/", (req, res) => {
 })
 //routes
 app.use("/api/auth", authRoute);
+app.use("/api/passport", passportRoute);
+
 
 
 //listen to port

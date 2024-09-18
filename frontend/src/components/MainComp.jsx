@@ -2,8 +2,7 @@ import React, { useState, useRef } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { toast } from "react-hot-toast"; // For toast notifications
-import { Document, Packer, Paragraph, Table, TableCell, TableRow } from 'docx';
-import { saveAs } from 'file-saver';
+import { backend_url } from "../server";
 
 function MainComp() {
   const [passportDetails, setPassportDetails] = useState([]);
@@ -43,17 +42,43 @@ function MainComp() {
       cmd: "process",
       image: croppedImage,
     });
-
+  
     worker.onmessage = function (e) {
       const data = e.data;
-    
   
       if (data.type === "result") {
         if (data.result && data.result.parsed && data.result.parsed.fields) {
+          const fields = data.result.parsed.fields;
+  
+          // Extract the specific fields
+          const {
+            firstName: givenName,
+            lastName: surName,
+            documentNumber: passportNumber,
+            nationality,
+            birthDate: dob,
+            sex,
+            personalNumber,
+            expirationDate,
+          } = fields;
+  
           toast.dismiss();
           toast.success("Scan successful!");
-          // Set the state only if data is valid
-          setPassportDetails((prevList) => [...prevList, data.result.parsed.fields]);
+  
+          // Update the state with the extracted fields
+          setPassportDetails((prevList) => [
+            ...prevList,
+            {
+              givenName,
+              surName,
+              passportNumber,
+              nationality,
+              dob,
+              sex,
+              personalNumber,
+              expirationDate,
+            },
+          ]);
         } else {
           toast.dismiss();
           toast.error("Please try to crop only the Passport area!");
@@ -66,13 +91,47 @@ function MainComp() {
       }
     };
   
-
     worker.onerror = function (err) {
       setLoading(false);
-      setError('Something went wrong');
-     
-      toast.error('Something went wrong');
+      setError("Something went wrong");
+      toast.error("Something went wrong");
     };
+  };
+
+
+  const handleAddDetails = async () => {
+    if (!passportDetails.length) {
+      toast.error("No passport details available to send!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${backend_url}/api/passport/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // / Assuming token stored in localStorage
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          ...passportDetails[passportDetails.length - 1] // Send the latest scanned passport details
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Passport details added successfully!");
+      } else {
+        toast.error(data.message || "Failed to add passport details!");
+      }
+    } catch (error) {
+      toast.error("An error occurred while sending data to the backend!");
+      console.error("Error sending passport details:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
 
@@ -92,61 +151,7 @@ function MainComp() {
       return `${day}-${month}-${fullYear}`;
     };
   
-    // Function to generate and download the DOCX file
-    const generateWordDocument = () => {
-      if (!passportDetails.length) return;
-  
-      const rows = passportDetails.map((data) => {
-        return new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph(formatDate(data.birthDate || 'N/A'))] }),
-            new TableCell({ children: [new Paragraph(data.nationality || 'N/A')] }),
-            new TableCell({ children: [new Paragraph(data.documentNumber || 'N/A')] }),
-            new TableCell({ children: [new Paragraph(data.lastName || 'N/A')] }),
-            new TableCell({ children: [new Paragraph(data.firstName || 'N/A')] }),
-            new TableCell({ children: [new Paragraph(data.sex || 'N/A')] }),
-            new TableCell({ children: [new Paragraph(data.expirationDate || 'N/A')] }),
-            new TableCell({ children: [new Paragraph(data.personalNumber || 'N/A')] }),
-          ],
-        });
-      });
-  
-      const doc = new Document({
-        sections: [
-          {
-            children: [
-              new Paragraph({
-                text: 'Passport Details ',
-                bold: true,
-                alignment: 'center',
-              }),
-              new Table({
-                rows: [
-                  new TableRow({
-                    children: [
-                      new TableCell({ children: [new Paragraph('Date of Birth')] }),
-                      new TableCell({ children: [new Paragraph('Nationality')] }),
-                      new TableCell({ children: [new Paragraph('Passport No')] }),
-                      new TableCell({ children: [new Paragraph('Surname')] }),
-                      new TableCell({ children: [new Paragraph('Given Name')] }),
-                      new TableCell({ children: [new Paragraph('Sex')] }),
-                      new TableCell({ children: [new Paragraph('Expiration Date')] }),
-                      new TableCell({ children: [new Paragraph('Personal Number')] }),
-                    ],
-                  }),
-                  ...rows,
-                ],
-              }),
-            ],
-          },
-        ],
-      });
-  
-      Packer.toBlob(doc).then((blob) => {
-        saveAs(blob, 'passportData.docx');
-        toast.success('Word file downloaded successfully!');
-      });
-    };
+
   
   return (
     <div className="p-5 flex flex-col items-center space-y-4">
@@ -177,7 +182,7 @@ function MainComp() {
             guides={true}
           />
           <button
-            className={`btn btn-neutral btn-outline mt-3 ${loading ? "loading" : ""}`}
+            className={`btn btn-neutral dark:btn-neutral btn-outline mt-3 ${loading ? "loading" : ""}`}
             onClick={handleCrop}
             disabled={loading}
           >
@@ -188,12 +193,12 @@ function MainComp() {
       {error && <div className="text-center text-red-500">{error}</div>}
 
 {passportDetails && passportDetails.length > 0 ? (
-  <div className="mt-6 w-full max-w-screen-sm lg:max-w-screen-lg">
-    <h2 className="text-xl font-semibold">Passport Details</h2>
+  <div className="mt-6 dark:text-black  w-full max-w-screen-sm lg:max-w-screen-lg">
+    <h2 className="text-xl font-semibold dark:text-white ">Passport Details</h2>
     <div className="overflow-x-auto">
       <table className="table border table-zebra" cellPadding="10">
         <thead>
-          <tr>
+          <tr className="dark:text-white text-black">
             <th>Date of Birth</th>
             <th>Nationality</th>
             <th>Passport No</th>
@@ -207,11 +212,11 @@ function MainComp() {
         <tbody>
           {passportDetails.map((data, index) => (
             <tr className="bg-base-200" key={index}>
-              <td>{formatDate(data.birthDate || 'N/A')}</td>
+              <td>{formatDate(data.dob || 'N/A')}</td>
               <td>{data.nationality || 'N/A'}</td>
-              <td>{data.documentNumber || 'N/A'}</td>
-              <td>{data.lastName || 'N/A'}</td>
-              <td>{data.firstName || 'N/A'}</td>
+              <td>{data.passportNumber || 'N/A'}</td>
+              <td>{data.surName|| 'N/A'}</td>
+              <td>{data.givenName || 'N/A'}</td>
               <td>{data.sex || 'N/A'}</td>
               <td>{data.expirationDate || 'N/A'}</td>
               <td>{data.personalNumber || 'N/A'}</td>
@@ -219,10 +224,15 @@ function MainComp() {
           ))}
         </tbody>
       </table>
+      <button
+            className={`btn btn-neutral dark:btn-neutral btn-outline mt-4 ${loading ? "loading" : ""}`}
+            onClick={handleAddDetails}
+            disabled={loading}
+          >
+            {loading ? "Saving..." : "Save"}
+          </button>
     </div>
-    <div className="w-full lg:max-w-[1100px] mx-auto flex justify-end py-2">
-      <button className="btn btn-neutral btn-outline" onClick={generateWordDocument}>Download Word File</button>
-    </div>
+   
   </div>
 ) : (
   <p className="text-gray-500 mt-4">Please upload an image.</p>
