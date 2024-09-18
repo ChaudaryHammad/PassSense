@@ -102,33 +102,43 @@ export const verifyEmail = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
+
+  
+
   try {
     if (!email || !password) {
+     
       return res.status(400).json({
         success: false,
         message: "Please fill all the fields",
       });
     }
 
+   
     const user = await User.findOne({ email });
     if (!user) {
+     
       return res.status(400).json({
         success: false,
         message: "Invalid credentials",
       });
     }
+
 
     const isPasswordMatch = await bcryptjs.compare(password, user.password);
     if (!isPasswordMatch) {
+    
       return res.status(400).json({
         success: false,
         message: "Invalid credentials",
       });
     }
+;
+    generateJwtTokenAndSetCookie(res, user._id);
 
-    await generateJwtTokenAndSetCookie(res, user._id);
     user.lastLogin = Date.now();
     await user.save();
+   
 
     res.status(200).json({
       success: true,
@@ -139,6 +149,7 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
+
     return res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -146,6 +157,7 @@ export const login = async (req, res) => {
     });
   }
 };
+
 
 
 

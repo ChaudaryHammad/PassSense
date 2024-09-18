@@ -26,7 +26,7 @@ app.use(cors(
 
 
 app.get("/", (req, res) => {
-  res.send(process.env.MONGO_URL);
+  res.send('hello world');
 })
 
 
