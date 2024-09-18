@@ -65,11 +65,11 @@ export const createPassport = async (req, res) => {
 
 // Controller to retrieve all passports associated with the logged-in user
 export const userPassports = async (req, res) => {
-//   const { userId } = req.user;
+  const { userId } = req.user;
 
   try {
     // Find all passports associated with the user
-    const passports = await Passport.find();
+    const passports = await Passport.find({ userId });
 
     if (!passports || passports.length === 0) {
       return res.status(404).json({
