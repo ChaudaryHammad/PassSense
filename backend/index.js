@@ -19,6 +19,7 @@ app.use(cookieParser());
 app.use(cors(
   {
     origin: process.env.CLIENT_URL,
+  
     credentials: true,
   }
 ));
@@ -27,6 +28,11 @@ app.use(cors(
 app.get("/", (req, res) => {
   res.send("Hello World");
 })
+
+app.post('/api/auth/login', (req, res) => {
+  res.json({ message: 'Login route works' });
+});
+
 //routes
 app.use("/api/auth", authRoute);
 app.use("/api/passport", passportRoute);
