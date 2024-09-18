@@ -126,7 +126,7 @@ export const login = async (req, res) => {
       });
     }
 
-    generateJwtTokenAndSetCookie(res, user._id);
+    await generateJwtTokenAndSetCookie(res, user._id);
     user.lastLogin = Date.now();
     await user.save();
 
