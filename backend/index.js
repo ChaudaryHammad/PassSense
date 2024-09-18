@@ -29,9 +29,6 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 })
 
-app.post('/api/auth/login', (req, res) => {
-  res.json({ message: 'Login route works' });
-});
 
 //routes
 app.use("/api/auth", authRoute);
