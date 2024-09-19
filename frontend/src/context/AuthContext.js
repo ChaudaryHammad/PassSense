@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { backend_url } from '../server';
+import toast from "react-hot-toast";
 
 // Create the AuthContext
 export const AuthContext = createContext();
@@ -47,6 +48,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
+
   // Function to handle OTP verification
   const verifyOtp = async (otp) => {
     setLoading(true);
@@ -89,8 +92,52 @@ export const AuthProvider = ({ children }) => {
     fetchUser(); // Call fetchUser to initialize state
   }, []);
 
+
+  // Function to handle forgot password
+const forget = async (data) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `${backend_url}/api/auth/forget-password`,
+      JSON.parse(data),
+      { withCredentials: true }
+    );
+
+    if(res.data.success){
+      toast.success(res.data.message)
+    
+    }
+  } catch (error) {
+    setError(error.response?.data?.message || "Failed to send reset link");
+    toast.error(error.response?.data?.message || "Failed to send reset link");
+  } finally {
+    setLoading(false);
+  }
+};
+
+const reset = async(token,password)=>{
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `${backend_url}/api/auth/reset-password/${token}`,
+      {password},
+      { withCredentials: true }
+    );
+    if(res.data.success){
+      toast.success(res.data.message)
+    
+    }
+  } catch (error) {
+    setError(error.response?.data?.message || "Failed to reset password");
+    toast.error(error.response?.data?.message || "Failed to reset password");
+  } finally {
+    setLoading(false);
+  }
+}
+
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, verifyOtp, loading, error }}>
+    <AuthContext.Provider value={{ user, login, logout, verifyOtp, loading, error,forget,reset }}>
       {children}
     </AuthContext.Provider>
   );

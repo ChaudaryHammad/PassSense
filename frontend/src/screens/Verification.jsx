@@ -27,6 +27,7 @@ const navigate = useNavigate()
       navigate("/"); // Redirect to home page
 
     } catch (err) {
+      toast.error(err.message); // Display error message if any
       setLocalError(err.message); // Display backend error if OTP is incorrect
     }
   };
@@ -49,12 +50,7 @@ const navigate = useNavigate()
             placeholder="Enter OTP"
           />
           
-          {(localError || error) && (
-            <p className="text-red-500 text-center mb-4">
-              {localError || error}
-            </p>
-          )}
-
+     
           <button
             onClick={handleSubmit}
             disabled={loading || otp.length !== 6}

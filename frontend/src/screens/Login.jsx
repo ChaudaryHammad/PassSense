@@ -59,7 +59,7 @@ function Login() {
             <p className="text-center  font-mono text-gray-600 ">
               Welcome back to{" "}
               <span className=" font-bold font-mono underline decoration-[#6dfd30] text-[#bd7dff]">
-                PassWiz
+                PassSense
               </span>
             </p>
           </div>
@@ -110,9 +110,9 @@ function Login() {
               </button>
             </div>
 
-            <p className="text-sm text-gray-400 cursor-pointer underline">
+            <Link to="/forget-password" className="text-sm text-gray-400 cursor-pointer underline">
               Forgot your password?
-            </p>
+            </Link>
 
             <button
               disabled={loading}

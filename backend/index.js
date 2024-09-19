@@ -7,6 +7,13 @@ import passportRoute from "./routes/passport.route.js";
 import cors from "cors";
 const app = express();
 
+
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  dotenv.config({
+    path: "config/.env",
+  });
+}
+
 const corsConfig = {
   origin: process.env.Client_URL,
   credentials: true,
@@ -17,11 +24,7 @@ app.options("", cors(corsConfig));
 app.use(cors(corsConfig));
 
 // Load environment variables only if not in production
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  dotenv.config({
-    path: "config/.env",
-  });
-}
+
 
 connectDB();
 const PORT = process.env.PORT || 8000;

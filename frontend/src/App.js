@@ -11,12 +11,14 @@ import SignUp from "./screens/SignUp";
 import Profile from "./screens/Profile";
 import { PrivateRoutes } from "./utils/routes.jsx";
 import Verification from "./screens/Verification.jsx";
+import ForgetPassword from "./screens/ForgetPassword.jsx";
+import ResetPassword from "./screens/ResetPassword.jsx";
 
 function App() {
   const location = useLocation();
 
   // Define the paths where you don't want to show the Navbar
-  const hideNavbarRoutes = ["/login", "/signup","/verify"];
+  const hideNavbarRoutes = ["/login", "/signup","/verify",'/forget-password'];
 
   return (
     <>
@@ -44,6 +46,10 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="/reset-passsword/:token" element={<ResetPassword />} />
+
+
           <Route path="/profile" element={<Profile />} />
           <Route path="/verify" element={<Verification />} />
 

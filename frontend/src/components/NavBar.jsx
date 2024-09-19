@@ -38,7 +38,7 @@ const Navbar = () => {
           transition={{ duration: 0.5 }}
           className="text-2xl font-bold font-mono underline decoration-[#6dfd30] text-[#bd7dff] "
         >
-          PassWiz
+          PassSense
         </motion.div>
 
         {/* Links for desktop */}

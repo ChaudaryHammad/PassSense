@@ -67,7 +67,7 @@ function SignUp() {
             <p className="text-center  font-mono text-gray-600 ">
               Welcome to{" "}
               <span className=" font-bold font-mono underline decoration-[#6dfd30] text-[#bd7dff]">
-                PassWiz
+                PassSense
               </span>
             </p>
           </div>

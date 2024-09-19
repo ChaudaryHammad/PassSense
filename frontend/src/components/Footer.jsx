@@ -9,7 +9,7 @@ function Footer() {
   <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8">
     <div className="lg:flex lg:items-center lg:justify-between">
       <div className="flex justify-center sm:justify-start">
-        <h1 className='text-2xl font-bold text-[#bd7dff] font-mono underline decoration-[#6dfd30]'>PassWiz</h1>
+        <h1 className='text-2xl font-bold text-[#bd7dff] font-mono underline decoration-[#6dfd30]'>PassSense</h1>
       </div>
 
       <p className="mt-4 max-w-md text-center leading-relaxed dark:text-white text-gray-500 sm:text-left lg:mt-0">

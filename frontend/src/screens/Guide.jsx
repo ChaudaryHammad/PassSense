@@ -11,7 +11,7 @@ const Guide = () => {
     <div className="min-h-screen py-16 flex flex-col items-center  px-5">
       {/* Page Header */}
       <header className="text-center mb-10 space-y-6">
-        <h1 className="text-4xl font-bold ">How to Use the <span className='underline decoration-[#6dfd30] text-[#bd7dff] font-mono'>PassWizz</span></h1>
+        <h1 className="text-4xl font-bold ">How to Use the <span className='underline decoration-[#6dfd30] text-[#bd7dff] font-mono'>PassSense</span></h1>
         <p className="text-lg  mt-2">
           Follow the steps below to successfully scan your passport.
         </p>

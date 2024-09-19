@@ -24,7 +24,7 @@ export const sendVerificationEmail = async (name, email) => {
   await transporter({
     email,
     subject: "Welcome",
-    message: "Welcome to RUNO",// You can customize this message acccording to your App Name 
+    message: "Welcome to PassSense",// You can customize this message acccording to your App Name 
     html: verificationMessage,
   });
 };
@@ -53,7 +53,7 @@ export const sendPasswordResetSuccessFull = async (name, email) => {
   await transporter({
     email,
     subject: "Reset Successfull",
-    message: "Welcome to RUNO", // You can customize this message acccording to your App Name
+    message: "Welcome to PassSense", // You can customize this message acccording to your App Name
     html: successMessage,
   });
 };
