@@ -1,13 +1,15 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import {backend_url} from '../server'
+import { backend_url } from '../server';
+
 // Create the AuthContext
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 // AuthProvider Component to wrap the application
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Start with loading as true
+  const [error, setError] = useState(null);
 
   // Function to handle login
   const login = async (data) => {
@@ -22,7 +24,7 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
     } catch (error) {
-      // Throw error with a specific message to be caught in handleSubmit
+      setError(error.response?.data?.message || "Login failed");
       throw new Error(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
@@ -40,7 +42,30 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("user"); // Remove user data from localStorage
     } catch (error) {
+      setError(error.response?.data?.message || "Logout failed");
       throw new Error(error.response?.data?.message || "Logout failed");
+    }
+  };
+
+  // Function to handle OTP verification
+  const verifyOtp = async (otp) => {
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${backend_url}/api/auth/verify-email`,
+        { otp },
+        { withCredentials: true }
+      );
+      const updatedUser = res.data.user;
+
+      // Update user in state and local storage after verification
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    } catch (error) {
+      setError(error.response?.data?.message || "OTP verification failed");
+      throw new Error(error.response?.data?.message || "OTP verification failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +75,6 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
-
         setUser(userData);
       } catch (error) {
         setUser(null);
@@ -66,7 +90,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, verifyOtp, loading, error }}>
       {children}
     </AuthContext.Provider>
   );

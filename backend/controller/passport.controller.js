@@ -1,7 +1,7 @@
 import { Passport } from "../models/passport.model.js";
 // Controller to create a new passport for a user
 export const createPassport = async (req, res) => {
-  const { userId } = req.user;
+  const { userId } = req.user; // Extract userId from the authenticated user
   const {
     givenName,
     surName,
@@ -14,7 +14,7 @@ export const createPassport = async (req, res) => {
   } = req.body;
 
   // Check for required fields
-  if (!passportNumber || !givenName || !surName || !nationality || !dob || !sex ) {
+  if (!passportNumber || !givenName || !surName || !dob || !sex) {
     return res.status(400).json({
       success: false,
       message: "Missing required fields",
@@ -22,13 +22,13 @@ export const createPassport = async (req, res) => {
   }
 
   try {
-    // Check if the passport number already exists
-    const existingPassport = await Passport.findOne({ passportNumber });
+    // Check if the user has already saved this passport number
+    const existingPassport = await Passport.findOne({ passportNumber, userId });
 
     if (existingPassport) {
       return res.status(400).json({
         success: false,
-        message: "Passport already exists",
+        message: "You have already saved this passport.",
       });
     }
 
@@ -42,7 +42,7 @@ export const createPassport = async (req, res) => {
       sex,
       personalNumber,
       expirationDate,
-      userId,
+      userId, // Associate the passport with the current user
     });
 
     // Save the passport
@@ -96,7 +96,9 @@ export const userPassports = async (req, res) => {
 
 export const deletePassport = async (req, res) => {
     const { userId } = req.user;
+    console.log(userId);
     const { passportId } = req.params;
+    console.log(passportId);
   
     try {
       // Find the passport by ID and ensure it belongs to the logged-in user

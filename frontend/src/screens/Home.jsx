@@ -4,11 +4,39 @@ import overlay from "../asserts/banner-overlay.webp"
 import sectionGif from "../asserts/section-gif.mp4"
 import Section from '../components/Section'
 import Footer from '../components/Footer'
-
+import { useAuth } from '../context/AuthContext'
+import { useState } from 'react';
+import { Link } from 'react-router-dom'
 
 function Home() {
+  const {user} = useAuth()
+  const [showReminder, setShowReminder] = useState(true);
+
+  const handleClose = () => {
+    setShowReminder(false);
+  };
+
   return (
-    <div className='lg:py-16'>
+    <div className='lg:py-16 relative'>
+   
+   <>
+      {user?.isVerified === false && showReminder ? (
+        <div className="fixed bottom-4 z-[9999] right-4 p-4 bg-yellow-100 border border-yellow-300 rounded shadow-lg max-w-sm">
+          <div className="flex justify-between items-center">
+            <p className="text-yellow-800">
+              Please <Link to="/verify" className="underline cursor-pointer">verify</Link> your account to access the full features of the website. Verification code has been sent to your email.
+            </p>
+            <button
+              onClick={handleClose}
+              className="text-yellow-600 hover:text-yellow-800 ml-4"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </>
+
       <div className=' flex justify-center md:flex-row flex-col '>
         <div className=' w-full bg-[#211236]  px-4  '>
           <div className='lg:w-[600px] h-full lg:px-8  py-12 flex flex-col gap-2'>

@@ -61,11 +61,11 @@ export const signup = async (req, res) => {
 };
 
 export const verifyEmail = async (req, res) => {
-  const { code } = req.body;
+  const { otp } = req.body;
 
   try {
     const user = await User.findOne({
-      verificationToken: code,
+      verificationToken: otp,
       verificationTokenExpiresAt: { $gt: Date.now() },
     });
 

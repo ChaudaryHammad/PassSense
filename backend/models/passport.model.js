@@ -16,12 +16,12 @@ const passportSchema = new mongoose.Schema({
     },
     passportNumber:{
         type: String,
-        unique: true,
+       
         required: true
     },
     nationality:{
         type: String,
-        required: true
+        default: 'PAK'
     },
     dob:{
         type: String
