@@ -36,7 +36,7 @@ app.use(cookieParser());
 
 // Test route
 app.get("/", (req, res) => {
-  res.send('hello world');
+  res.send(process.env.Client_URL);
 });
 
 // Routes
