@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.js": "/static/js/main.53ba6a21.js",
+    "main.css": "/static/css/main.c490672a.css",
+    "static/js/845.046078fe.chunk.js": "/static/js/845.046078fe.chunk.js",
+    "static/js/983.be96e568.chunk.js": "/static/js/983.be96e568.chunk.js",
+    "static/js/693.6923dc92.chunk.js": "/static/js/693.6923dc92.chunk.js",
+    "static/js/319.85a1fd94.chunk.js": "/static/js/319.85a1fd94.chunk.js",
+    "static/media/guide 2.webp": "/static/media/guide 2.5fd879f63644f9f4a312.webp",
+    "static/media/section2-gif.mp4": "/static/media/section2-gif.8591f967228a140cd06d.mp4",
+    "static/media/banner-overlay.webp": "/static/media/banner-overlay.60023f5b8838e00ee3da.webp",
+    "static/media/guide1.svg": "/static/media/guide1.32c72dba0f2b5a2395f21049dc8e45e8.svg",
+    "static/media/section-gif.mp4": "/static/media/section-gif.a4fbd7fcac450c1e0573.mp4",
+    "static/media/guide3.webp": "/static/media/guide3.9926922f73d08050f477.webp",
+    "static/media/guide4.webp": "/static/media/guide4.281b2b47648600835722.webp",
+    "static/media/banner.webp": "/static/media/banner.1274fcbde60f1e47c0b0.webp",
+    "index.html": "/index.html",
+    "main.c490672a.css.map": "/static/css/main.c490672a.css.map"
+  },
+  "entrypoints": [
+    "static/js/main.53ba6a21.js",
+    "static/css/main.c490672a.css"
+  ]
+}
