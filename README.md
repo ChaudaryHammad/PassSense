@@ -1,11 +1,11 @@
-# [PassSense](https://pass-sense-frontend.vercel.app)
+# [PassSense](https://pass-sense.vercel.app)
 
 PassSense is an advanced web application designed to simplify and streamline passport management. With state-of-the-art technology, it detects, scans, and parses the Machine Readable Zone (MRZ) of passports, providing accurate and efficient data extraction for various use cases such as identity verification, travel documentation, and record management.
 
 
 
 
-- **Live Demo**: Check out the live demo of PassSense [here](https://pass-sense-frontend.vercel.app).
+- **Live Demo**: Check out the live demo of PassSense [here](https://pass-sense.vercel.app).
 
 ## Features
 
