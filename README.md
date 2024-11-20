@@ -1,50 +1,120 @@
-# MERN Stack Passport Scanner App
+# [PassSense](https://pass-sense-frontend.vercel.app)
 
-This is a detailed README.md file for a MERN (MongoDB, Express.js, React.js, Node.js) stack passport scanner app with authentication, authorization, and passport scanning functionalities.
+PassSense is an advanced web application designed to simplify and streamline passport management. With state-of-the-art technology, it detects, scans, and parses the Machine Readable Zone (MRZ) of passports, providing accurate and efficient data extraction for various use cases such as identity verification, travel documentation, and record management.
+
+
+
+
+- **Live Demo**: Check out the live demo of PassSense [here](https://pass-sense-frontend.vercel.app).
 
 ## Features
 
-- User Authentication: Users can sign up, log in, and log out to access the app's features.
-- Authorization: Different user roles (admin, regular user) with varying levels of access and permissions.
-- Passport Scanning: The app allows users to scan passports using a scanner device or by uploading passport images.
-- Managing Passports: Users can view, edit, and delete passport records in the app's database.
-- Additional Functionalities: The app may include additional features such as search functionality, filtering, sorting, and exporting passport data.
+- **User Management**: Users can sign up, log in, and log out of the application. They can also update their profile information and reset their password.
+- **Email Verification**: SMTP is used to send email verification to users. After verification by OTP on email, users can access the scanner.
+- **Passport Management**: Save scanned passports, delete them, edit them, and generate PDFs.
 
-## Technologies Used
-
-- MongoDB: A NoSQL database used to store passport records and user information.
-- Express.js: A web application framework used to build the app's backend API.
-- React.js: A JavaScript library used to build the app's user interface.
-- Node.js: A JavaScript runtime environment used to run the app's backend server.
-- Passport.js: A popular authentication middleware used to handle user authentication and authorization.
-- Scanner Device Integration: The app may integrate with a scanner device to enable passport scanning functionality.
-- Additional Libraries and Frameworks: Depending on the specific requirements, additional libraries and frameworks may be used for UI design, form validation, state management, etc.
-
-## Installation
-
-1. Clone the repository: `git clone https://github.com/ChaudaryHammad/PassSense`
-2. Navigate to the project directory: `cd PassSense`
-3. Install dependencies: `npm install`
-4. Configure environment variables: Create a `.env` file insile `config` directory inside `backend` directory and set up the required environment variables (e.g., database connection string, secret key, etc.).
-5. Start the development server: `npm run dev`
-
-## Usage
-
-1. Open your web browser and navigate to `http://localhost:3000`.
-2. Sign up or log in to access the app's features.
-3. Use the provided functionality to scan, manage, and view passport records.
-4. Log out when you're done using the app.
 
 ## Contributing
 
-Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
+This project is open for contributions! If you have any good ideas or enhancements, feel free to contribute. Please check the issues section for any ongoing discussions or to report any problems. I welcome all contributions to make PassSense even better.
 
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature/your-feature-name`
-3. Make your changes and commit them: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin feature/your-feature-name`
-5. Submit a pull request.
+
+## Screenshots
+
+### Home
+![Home](images/home.png)
+
+### Guide
+![Guide](images/guide.png)
+
+### Scan
+![Scan](images/scan.png)
+
+### User Scans
+![My Scans](images/myscan.png)
+
+### Login
+![Login](images/login.png)
+
+### Profile
+![Profile](images/profile.png)
+
+### PDF Screen
+![PDF Screen](images/pdf.png)
+
+
+
+
+
+## Getting Started
+
+To get started with PassSense, follow the guide provided in the application to set up your account and begin scanning passports.
+
+
+
+## Environment Variables
+
+To run this application, you need to set up the following environment variables inside backend/config/.env:
+
+```
+PORT=5000
+MONGO_URL=
+JWT_SECRET=
+JWT_EXPIRES_IN=7d
+NODE_ENV=DEVELOPMENT
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_EMAIL=
+SMTP_PASSWORD=
+FROM_NAME=PassSense
+FROM_EMAIL=
+Client_URL=http://localhost:3000
+```
+
+## Running the Application
+
+The application consists of two directories: `backend` and `frontend`. Follow the steps below to run the application:
+
+### Backend
+
+1. Navigate to the `backend` directory:
+    ```sh
+    cd backend
+    ```
+
+2. Install the dependencies:
+    ```sh
+    npm install
+    ```
+
+3. Start the backend server:
+    ```sh
+    npm run dev
+    ```
+
+### Frontend
+
+1. Navigate to the `frontend` directory:
+    ```sh
+    cd frontend
+    ```
+
+2. Install the dependencies:
+    ```sh
+    npm install
+    ```
+
+3. Start the frontend server:
+    ```sh
+    npm start
+    ```
+
+The application should now be running, and you can access it at `http://localhost:3000`.
 
 ## License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License.
+
+## Contact
+
+For more information, please contact me at hammad.node@gmail.com.

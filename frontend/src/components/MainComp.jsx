@@ -43,14 +43,14 @@ function MainComp() {
       cmd: "process",
       image: croppedImage,
     });
-  
+
     worker.onmessage = function (e) {
       const data = e.data;
-  
+
       if (data.type === "result") {
         if (data.result && data.result.parsed && data.result.parsed.fields) {
           const fields = data.result.parsed.fields;
-  
+
           // Extract the specific fields
           const {
             firstName: givenName,
@@ -62,10 +62,10 @@ function MainComp() {
             personalNumber,
             expirationDate,
           } = fields;
-  
+
           toast.dismiss();
           toast.success("Scan successful!");
-  
+
           // Update the state with the extracted fields
           setPassportDetails((prevList) => [
             ...prevList,
@@ -91,14 +91,13 @@ function MainComp() {
         setLoading(false);
       }
     };
-  
+
     worker.onerror = function (err) {
       setLoading(false);
       setError("Something went wrong");
       toast.error("Something went wrong");
     };
   };
-
 
   const handleAddDetails = async () => {
     if (!passportDetails.length) {
@@ -116,7 +115,7 @@ function MainComp() {
         },
         credentials: "include",
         body: JSON.stringify({
-          ...passportDetails[passportDetails.length - 1] // Send the latest scanned passport details
+          ...passportDetails[passportDetails.length - 1], // Send the latest scanned passport details
         }),
       });
 
@@ -135,13 +134,10 @@ function MainComp() {
     }
   };
 
+  // Helper function to format birth date in DD-MM-YYYY
 
-    // Helper function to format birth date in DD-MM-YYYY
-
-  
   return (
     <div className="p-5 flex flex-col items-center space-y-4">
-      
       <input
         type="file"
         id="photo"
@@ -168,7 +164,9 @@ function MainComp() {
             guides={true}
           />
           <button
-            className={`btn btn-neutral dark:btn-neutral btn-outline mt-3 ${loading ? "loading" : ""}`}
+            className={`btn btn-neutral dark:btn-neutral btn-outline mt-3 ${
+              loading ? "loading" : ""
+            }`}
             onClick={handleCrop}
             disabled={loading}
           >
@@ -178,52 +176,54 @@ function MainComp() {
       )}
       {error && <div className="text-center text-red-500">{error}</div>}
 
-{passportDetails && passportDetails.length > 0 ? (
-  <div className="mt-6 dark:text-black  w-full max-w-screen-sm lg:max-w-screen-lg">
-    <h2 className="text-xl font-semibold dark:text-white ">Passport Details</h2>
-    <div className="overflow-x-auto">
-      <table className="table border table-zebra" cellPadding="10">
-        <thead>
-          <tr className="dark:text-white text-black">
-            <th>Date of Birth</th>
-            <th>Nationality</th>
-            <th>Passport No</th>
-            <th>Surname</th>
-            <th>Given Name</th>
-            <th>Sex</th>
-            <th>Expiration Date</th>
-            <th>Personal Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          {passportDetails.map((data, index) => (
-            <tr className="bg-base-200" key={index}>
-              <td>{formatDate(data.dob || 'N/A')}</td>
-              <td>{data.nationality || 'N/A'}</td>
-              <td>{data.passportNumber || 'N/A'}</td>
-              <td>{data.surName|| 'N/A'}</td>
-              <td>{data.givenName || 'N/A'}</td>
-              <td>{data.sex || 'N/A'}</td>
-              <td>{data.expirationDate || 'N/A'}</td>
-              <td>{data.personalNumber || 'N/A'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <button
-            className={`btn btn-neutral dark:btn-neutral btn-outline mt-4 ${loading ? "loading" : ""}`}
-            onClick={handleAddDetails}
-            disabled={loading}
-          >
-            {loading ? "Saving..." : "Save"}
-          </button>
-    </div>
-   
-  </div>
-) : (
-  <p className="text-gray-500 mt-4">Please upload an image.</p>
-)}
-
+      {passportDetails && passportDetails.length > 0 ? (
+        <div className="mt-6 dark:text-black  w-full max-w-screen-sm lg:max-w-screen-lg">
+          <h2 className="text-xl font-semibold dark:text-white ">
+            Passport Details
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="table border table-zebra" cellPadding="10">
+              <thead>
+                <tr className="dark:text-white text-black">
+                  <th>Date of Birth</th>
+                  <th>Nationality</th>
+                  <th>Passport No</th>
+                  <th>Surname</th>
+                  <th>Given Name</th>
+                  <th>Sex</th>
+                  <th>Expiration Date</th>
+                  <th>Personal Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                {passportDetails.map((data, index) => (
+                  <tr className="bg-base-200" key={index}>
+                    <td>{formatDate(data.dob || "N/A")}</td>
+                    <td>{data.nationality || "N/A"}</td>
+                    <td>{data.passportNumber || "N/A"}</td>
+                    <td>{data.surName || "N/A"}</td>
+                    <td>{data.givenName || "N/A"}</td>
+                    <td>{data.sex || "N/A"}</td>
+                    <td>{data.expirationDate || "N/A"}</td>
+                    <td>{data.personalNumber || "N/A"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button
+              className={`btn btn-neutral dark:btn-neutral btn-outline mt-4 ${
+                loading ? "loading" : ""
+              }`}
+              onClick={handleAddDetails}
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Save"}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p className="text-gray-500 mt-4">Please upload an image.</p>
+      )}
     </div>
   );
 }
